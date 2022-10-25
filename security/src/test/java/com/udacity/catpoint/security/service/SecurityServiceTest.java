@@ -75,9 +75,9 @@ public class SecurityServiceTest {
 
 public void if_pendingAlarm_plus_allSensors_inactive_changeToNoAlarm(){
         when(sensor.getActive()).thenReturn(true);
-        boolean systemFlag=false;
+        boolean isSystemFlag=false;
         when(securityRepo.getAlarmStatus()).thenReturn(AlarmStatus.PENDING_ALARM);
-        securityService.changeSensorActivationStatus(sensor,systemFlag);
+        securityService.changeSensorActivationStatus(sensor,isSystemFlag);
         verify(sensor,times(1)).setActive(any(Boolean.TYPE));
         verify(sensor,times(2)).getActive();
        verify(securityRepo,times(1)).setAlarmStatus(AlarmStatus.NO_ALARM);
@@ -100,9 +100,9 @@ public void if_pendingAlarm_plus_allSensors_inactive_changeToNoAlarm(){
     @Test ////#5
 public void if_sensorActivated_plus_systemActive_plus_alarm_isInPending_thenChange_alarm() {
      when(sensor.getActive()).thenReturn(false);
-     boolean systemFlag= true;
+     boolean isSystemFlag= true;
      when(securityRepo.getAlarmStatus()).thenReturn(AlarmStatus.PENDING_ALARM);
-     securityService.changeSensorActivationStatus(sensor,systemFlag);
+     securityService.changeSensorActivationStatus(sensor,isSystemFlag);
      verify(sensor,times(1)).setActive(any(Boolean.TYPE));
      verify(securityRepo,times(1)).setAlarmStatus(AlarmStatus.ALARM);
      verify(sensor,times(1)).getActive();
@@ -112,8 +112,8 @@ public void if_sensorActivated_plus_systemActive_plus_alarm_isInPending_thenChan
 @Test //#6
     public void if_sensorIsDeActivated_plus_alreadyInactive_changeNothing_toAlarm(){
         when(sensor.getActive()).thenReturn(false);
-        boolean systemFlag= false;
-        securityService.changeSensorActivationStatus(sensor,systemFlag);
+        boolean isSystemFlag= false;
+        securityService.changeSensorActivationStatus(sensor,isSystemFlag);
         verify(sensor,times(1)).setActive(any(Boolean.TYPE));
         verify(securityRepo,never()).setAlarmStatus(any(AlarmStatus.class));
 }
