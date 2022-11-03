@@ -21,26 +21,22 @@ import java.util.Set;
  * class you will be writing unit tests for.
  */
 
-//Few codes and logics were given by following Mr. Michael, session lead, Udacity.
+//** Few codes and logics are attributed to Mr. Michael Gao, session lead, Udacity.
 public class SecurityService {
      boolean isCatFound;
-
     //private FakeImageService imageService;
     private ImageService imageService;
     private SecurityRepository securityRepository;
     private Set<StatusListener> statusListeners = new HashSet<>();
 
-    //public SecurityService(SecurityRepository securityRepository, FakeImageService imageService) {
-    public SecurityService(SecurityRepository securityRepository, ImageService imageService) {
+      public SecurityService(SecurityRepository securityRepository, ImageService imageService) {
         this.securityRepository = securityRepository;
         this.imageService = imageService;
     }
 
     public SecurityService(SecurityRepository securityRepository) {
         this(securityRepository, new FakeImageService());
-        // this(securityRepository,new AwsImageService());
-
-    }
+         }
 
     /**
      * Sets the current arming status for the system. Changing the arming status
@@ -73,7 +69,6 @@ public class SecurityService {
             setAlarmStatus(AlarmStatus.NO_ALARM);
         }
         this.isCatFound=cat;
-
         statusListeners.forEach(sl -> sl.catDetected(cat));
     }
 
@@ -133,8 +128,7 @@ public class SecurityService {
         AlarmStatus alarmStatus = securityRepository.getAlarmStatus();
         if (alarmStatus!= AlarmStatus.ALARM) {
            if (!sensor.getActive() && active) {
-            //if (sensor.getActive() && active) {
-                handleSensorActivated();
+              handleSensorActivated();
             } else if (sensor.getActive() && !active) {
                 handleSensorDeactivated();
             }
@@ -156,7 +150,6 @@ public class SecurityService {
         } else if (alarmStatus == AlarmStatus.ALARM) {
             handleSensorDeactivated();
         }
-        //  sensor.setActive(active);
         securityRepository.updateSensor(sensor);
     }
         /**

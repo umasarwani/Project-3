@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.udacity.catpoint</groupId>
   <artifactId>catpoint-parent</artifactId>
-    <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
-    <modules>
-      <module>image</module>
-      <module>security</module>
-      <module>ui</module>
-    </modules>
+  <packaging>pom</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <modules>
+    <module>image</module>
+    <module>security</module>
+    <module>ui</module>
+  </modules>
 
-    <name>catpoint-parent</name>
+  <name>catpoint-parent</name>
   <url>http://www.example.com</url>
 
   <properties>
@@ -39,12 +39,12 @@
       <artifactId>auth</artifactId>
       <version>2.17.195</version>
     </dependency>
-      <!-- https://mvnrepository.com/artifact/software.amazon.awssdk/rekognition -->
-      <dependency>
-          <groupId>software.amazon.awssdk</groupId>
-          <artifactId>rekognition</artifactId>
-          <version>2.17.157</version>
-      </dependency>
+    <!-- https://mvnrepository.com/artifact/software.amazon.awssdk/rekognition -->
+    <dependency>
+      <groupId>software.amazon.awssdk</groupId>
+      <artifactId>rekognition</artifactId>
+      <version>2.17.157</version>
+    </dependency>
     <dependency>
       <groupId>com.google.code.gson</groupId>
       <artifactId>gson</artifactId>
@@ -65,12 +65,6 @@
       <version>${junit.jupiter.version}</version>
       <scope>test</scope>
     </dependency>
-   <!-- <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-api</artifactId>
-      <version>${junit.jupiter.version}</version>
-      <scope>test</scope>
-    </dependency>-->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-params</artifactId>
@@ -89,7 +83,7 @@
       <version>4.6.1</version>
       <scope>test</scope>
     </dependency>
-      </dependencies>
+    </dependencies>
 
   <build>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
@@ -108,11 +102,7 @@
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.8.0</version>
         </plugin>
-        <plugin>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.22.1</version>
-        </plugin>
-        <plugin>
+          <plugin>
           <artifactId>maven-jar-plugin</artifactId>
           <version>3.0.2</version>
         </plugin>
@@ -136,80 +126,83 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>3.0.0-M5</version>
+          <version>3.0.0-M7</version>
           <configuration>
             <skipTests>false</skipTests>
             <useModulePath>false</useModulePath>
+            <argLine>
+              --add-opens security/com.udacity.catpoint.security.service=ALL-UNNAMED
+            </argLine>
           </configuration>
         </plugin>
-        </plugins>
+       </plugins>
     </pluginManagement>
-    <!---No:1 Option for building an executable jar using maven-assembly-plugin-->
-   <plugins>
-     <!--<plugin>
-         <groupId>org.apache.maven.plugins</groupId>
-         <artifactId>maven-assembly-plugin</artifactId>
-         <executions>
-           <execution>
-             <phase>package</phase>
-             <goals>
-               <goal>single</goal>
-             </goals>
-             <configuration>
-               <archive>
-                 <manifest>
-                   <mainClass>
-                     package com.udacity.catpoint.ui.application.CatpointApp
-                   </mainClass>
-                 </manifest>
-               </archive>
-               <descriptorRefs>
-                 <descriptorRef>jar-with-dependencies</descriptorRef>
-               </descriptorRefs>
-             </configuration>
-           </execution>
-         </executions>
-       </plugin>-->
+    <plugins>
+      <!---No:1 Option for building an executable jar using maven-assembly-plugin-->
+      <!--<plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <executions>
+            <execution>
+              <phase>package</phase>
+              <goals>
+                <goal>single</goal>
+              </goals>
+              <configuration>
+                <archive>
+                  <manifest>
+                    <mainClass>
+                      package com.udacity.catpoint.ui.application.CatpointApp
+                    </mainClass>
+                  </manifest>
+                </archive>
+                <descriptorRefs>
+                  <descriptorRef>jar-with-dependencies</descriptorRef>
+                </descriptorRefs>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>-->
 
-   <!-- <plugin>
-      No:2 Option for building an executable jar using maven-shade-plugin&ndash;&gt;
-      <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
+<!--      No:2 Option for building an executable jar using maven-shade-plugin&ndash;&gt;-->
+     <!--  <plugin>
+         <groupId>org.apache.maven.plugins</groupId>
+           <artifactId>maven-shade-plugin</artifactId>
+           <executions>
+             <execution>
+               <goals>
+                 <goal>shade</goal>
+               </goals>
+               <configuration>
+                 <shadedArtifactAttached>true</shadedArtifactAttached>
+                 <transformers>
+                   <transformer implementation=
+                                        "org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                     <mainClass>com.udacity.catpoint.ui.application.CatpointApp</mainClass>
+                   </transformer>
+                 </transformers>
+               </configuration>
+             </execution>
+           </executions>
+         </plugin>-->
+      <!---No:3 Option for building an executable jar using spring-boot-maven-plugin-->
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
         <executions>
           <execution>
             <goals>
-              <goal>shade</goal>
+              <goal>repackage</goal>
             </goals>
             <configuration>
-              <shadedArtifactAttached>true</shadedArtifactAttached>
-              <transformers>
-                <transformer implementation=
-                                     "org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                  <mainClass>com.udacity.catpoint.ui.application.CatpointApp</mainClass>
-                </transformer>
-              </transformers>
+              <classifier>spring-boot</classifier>
+              <mainClass>com.udacity.catpoint.ui.application.CatpointApp</mainClass>
             </configuration>
           </execution>
         </executions>
-      </plugin>-->
-       <!---No:3 Option for building an executable jar using spring-boot-maven-plugin-->
-     <plugin>
-       <groupId>org.springframework.boot</groupId>
-       <artifactId>spring-boot-maven-plugin</artifactId>
-       <executions>
-         <execution>
-           <goals>
-             <goal>repackage</goal>
-           </goals>
-           <configuration>
-             <classifier>spring-boot</classifier>
-             <mainClass>com.udacity.catpoint.ui.application.CatpointApp</mainClass>
-           </configuration>
-         </execution>
-       </executions>
-     </plugin>
+      </plugin>
     </plugins>
-      </build>
+  </build>
   <reporting>
     <plugins>
       <plugin>
@@ -220,4 +213,4 @@
     </plugins>
   </reporting>
 
-    </project>
+</project>
